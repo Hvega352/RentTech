@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentTech - Alquiler de Equipos</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="images/icon-192.png">
+
+
+</head>
+<body>
+    <header>
+        <h1>RentTech - Inventario de Equipos_Hernando_Vega</h1>
+    </header>
+
+    <main>
+        <table id="inventario">
+            <thead>
+                <tr>
+                    <th>Equipo</th>
+                    <th>En Bodega</th>
+                    <th>Prestados</th>
+                    <th>Mantenimiento</th>
+                    <th>Total</th>
+                    <th>Prestar</th>
+                    <th>Mantenimiento</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Inventario generado dinámicamente -->
+            </tbody>
+        </table>
+    </main>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                .then(reg => console.log('Service Worker registrado', reg))
+                .catch(err => console.log('Error al registrar el Service Worker', err));
+            });
+        }
+    </script>
+    
+    
+
+    <script src="dist/script.js"></script>
+</body>
+</html>
