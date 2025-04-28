@@ -27,17 +27,17 @@ function generarInventario() {
 
     equipos.forEach((equipo, index) => {
         const fila = `
-            <tr>
-                <td>${equipo.nombre}</td>
-                <td id="bodega-${index}">${equipo.bodega}</td>
-                <td id="prestados-${index}">${equipo.prestados}</td>
-                <td id="mantenimiento-${index}">${equipo.mantenimiento}</td>
-                <td>800</td>
-                <td><input type="number" id="input-prestar-${index}" min="0" placeholder="0"></td>
-                <td><input type="number" id="input-mantenimiento-${index}" min="0" placeholder="0"></td>
-                <td><button onclick="actualizarInventario(${index})">Actualizar</button></td>
-            </tr>
-        `;
+        <tr>
+          <td data-label="Equipo">${equipo.nombre}</td>
+          <td data-label="En Bodega" id="bodega-${index}">${equipo.bodega}</td>
+          <td data-label="Prestados" id="prestados-${index}">${equipo.prestados}</td>
+          <td data-label="Mantenimiento" id="mantenimiento-${index}">${equipo.mantenimiento}</td>
+          <td data-label="Total">800</td>
+          <td data-label="Prestar"><input type="number" id="input-prestar-${index}" min="0" placeholder="0"></td>
+          <td data-label="Mantenimiento"><input type="number" id="input-mantenimiento-${index}" min="0" placeholder="0"></td>
+          <td data-label="Acción"><button onclick="actualizarInventario(${index})">Actualizar</button></td>
+        </tr>
+      `;
         tbody.innerHTML += fila;
     });
 }
@@ -65,45 +65,3 @@ document.addEventListener('DOMContentLoaded', () => {
     generarInventario();
 });
 
-let deferredInstallPrompt;
-const btnInstall = document.getElementById('btn-install');
-
-// Cuando la PWA está a punto de poder instalarse…
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();                // Evita el prompt automático
-  deferredInstallPrompt = e;         // Guarda el evento
-  btnInstall.style.display = 'block';// Muestra tu botón
-});
-
-// Al hacer clic en tu botón “Instalar”
-btnInstall.addEventListener('click', async () => {
-  btnInstall.style.display = 'none'; // Oculta el botón
-  deferredInstallPrompt.prompt();    // Muestra el diálogo de instalación
-  const { outcome } = await deferredInstallPrompt.userChoice;
-  console.log('Resultado de la instalación:', outcome);
-  deferredInstallPrompt = null;
-});
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/service-worker.js');
-    });
-  }
-</script>
-// ————— Instalación de la PWA —————
-let deferredPrompt;
-const btnInstall = document.getElementById('btn-install');
-
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  btnInstall.style.display = 'block';
-});
-
-btnInstall.addEventListener('click', async () => {
-  btnInstall.style.display = 'none';
-  deferredPrompt.prompt();
-  const choice = await deferredPrompt.userChoice;
-  console.log('User choice:', choice.outcome);
-  deferredPrompt = null;
-});

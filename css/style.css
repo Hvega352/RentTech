@@ -30,3 +30,75 @@ th, td {
 th {
     background-color: #f0f0f0;
 }
+/* Contenedor scrollable para tablas */
+.table-container {
+    overflow-x: auto;
+  }
+  
+  /* Asegura que la tabla no se comprima demasiado */
+  .table-container table {
+    min-width: 600px; /* ajusta al ancho mínimo deseado */
+  }
+  
+  /* Estilos predeterminados para inputs y botones */
+input[type="number"] {
+    width: 4rem;
+  }
+  
+  button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  /* En pantallas menores a 600px: */
+  @media (max-width: 600px) {
+    header h1 {
+      font-size: 1.2rem;
+    }
+  
+    table th,
+    table td {
+      padding: 0.4rem;
+      font-size: 0.8rem;
+    }
+  
+    input[type="number"] {
+      width: 3rem;
+    }
+  
+    button {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.8rem;
+    }
+  
+    /* Opcional: muestra cada fila como bloque */
+    .table-container table,
+    .table-container thead,
+    .table-container tbody,
+    .table-container th,
+    .table-container td,
+    .table-container tr {
+      display: block;
+    }
+    .table-container thead {
+      display: none;
+    }
+    .table-container tr {
+      margin-bottom: 1rem;
+    }
+    .table-container td {
+      text-align: right;
+      position: relative;
+      padding-left: 50%;
+    }
+    .table-container td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      width: 45%;
+      padding-left: 0.5rem;
+      font-weight: bold;
+      text-align: left;
+    }
+  }
+  
