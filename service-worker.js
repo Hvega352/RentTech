@@ -1,6 +1,6 @@
 // service-worker.js
 
-const CACHE_NAME = 'renttech-cache-v2';    // ← incrementa este sufijo cuando cambies
+const CACHE_NAME = 'renttech-v2';         // ← cambia a “v2”
 const ASSETS = [
   './',
   './index.html',
@@ -11,32 +11,30 @@ const ASSETS = [
   './images/icon-512.png'
 ];
 
-// Al instalar, guarda todos los assets
+// Al instalar, cachea todo
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(ASSETS))
-      .then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
   );
+  self.skipWaiting();
 });
 
-// Al activar, borra caches viejos
+// Al activar, borra cachés anteriores
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
-        keys
-          .filter(key => key !== CACHE_NAME)
-          .map(key => caches.delete(key))
+        keys.filter(key => key !== CACHE_NAME)
+            .map(key => caches.delete(key))
       )
-    ).then(() => self.clients.claim())
+    )
   );
+  self.clients.claim();
 });
 
-// Al hacer fetch, responde desde caché o va a la red
+// Al buscar un recurso, primero caché, luego red
 self.addEventListener('fetch', e => {
   e.respondWith(
-    caches.match(e.request)
-      .then(res => res || fetch(e.request))
+    caches.match(e.request).then(r => r || fetch(e.request))
   );
 });
