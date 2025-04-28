@@ -83,3 +83,27 @@ btnInstall.addEventListener('click', async () => {
   console.log('Resultado de la instalación:', outcome);
   deferredInstallPrompt = null;
 });
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js');
+    });
+  }
+</script>
+// ————— Instalación de la PWA —————
+let deferredPrompt;
+const btnInstall = document.getElementById('btn-install');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  btnInstall.style.display = 'block';
+});
+
+btnInstall.addEventListener('click', async () => {
+  btnInstall.style.display = 'none';
+  deferredPrompt.prompt();
+  const choice = await deferredPrompt.userChoice;
+  console.log('User choice:', choice.outcome);
+  deferredPrompt = null;
+});
