@@ -65,3 +65,19 @@ document.addEventListener('DOMContentLoaded', () => {
     generarInventario();
 });
 
+let deferredPrompt;
+const btnInstall = document.getElementById('btn-install');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  btnInstall.style.display = 'block'; // Muestra el botón de instalación
+});
+
+btnInstall.addEventListener('click', async () => {
+  btnInstall.style.display = 'none';
+  deferredPrompt.prompt(); // Muestra el prompt de instalación
+  const choice = await deferredPrompt.userChoice;
+  console.log('User choice:', choice.outcome); // Mostrar si el usuario aceptó o rechazó
+  deferredPrompt = null; // Limpiamos el prompt
+});
