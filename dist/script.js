@@ -64,3 +64,22 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarInventario();
     generarInventario();
 });
+
+let deferredInstallPrompt;
+const btnInstall = document.getElementById('btn-install');
+
+// Cuando la PWA está a punto de poder instalarse…
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();                // Evita el prompt automático
+  deferredInstallPrompt = e;         // Guarda el evento
+  btnInstall.style.display = 'block';// Muestra tu botón
+});
+
+// Al hacer clic en tu botón “Instalar”
+btnInstall.addEventListener('click', async () => {
+  btnInstall.style.display = 'none'; // Oculta el botón
+  deferredInstallPrompt.prompt();    // Muestra el diálogo de instalación
+  const { outcome } = await deferredInstallPrompt.userChoice;
+  console.log('Resultado de la instalación:', outcome);
+  deferredInstallPrompt = null;
+});
